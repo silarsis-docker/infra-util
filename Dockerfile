@@ -9,7 +9,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/awscliv
 
 FROM amazonlinux:latest
 RUN yum update -y \
-    && yum install -y less vim groff unzip python3 git tar jq \
+    && yum install -y less vim groff unzip python3 git tar jq sudo \
     && yum clean all
 RUN amazon-linux-extras install docker
 # Install aws-cli v2
@@ -17,6 +17,7 @@ COPY --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=installer /aws-cli-bin /usr/local/bin
 # Setup the user
 RUN useradd --create-home --shell /bin/bash kevin.littlejohn
+RUN echo "kevin.littlejohn ALL=(ALL) ALL" >> /etc/sudoers
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn
 # Configure git
