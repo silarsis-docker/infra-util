@@ -12,6 +12,7 @@ RUN yum update -y \
     && yum install -y less vim groff unzip python3 git tar jq sudo \
     && yum clean all
 RUN amazon-linux-extras install docker
+RUN python3 -m pip install boto3
 # Install aws-cli v2
 COPY --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=installer /aws-cli-bin /usr/local/bin
