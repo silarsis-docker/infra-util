@@ -9,7 +9,9 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/awscliv
 
 FROM amazonlinux:latest
 RUN yum update -y \
-    && yum install -y less vim groff unzip python3 git tar jq sudo \
+    && yum install -y yum-utils less vim groff unzip python3 git tar jq sudo \
+    && yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo \
+    && yum install -y terraform
     && yum clean all
 RUN amazon-linux-extras install docker
 RUN python3 -m pip install boto3
