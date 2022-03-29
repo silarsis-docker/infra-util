@@ -8,9 +8,11 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/awscliv
     && ./aws/install --bin-dir /aws-cli-bin/
 
 FROM amazonlinux:latest
+# Install the stuff I want
 RUN yum update -y \
-    && yum install -y less vim groff unzip python3 git docker \
+    && yum install -y less vim groff unzip python3 git \
     && yum clean all
+RUN amazon-linux-extras install docker
 # Install aws-cli v2
 COPY --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=installer /aws-cli-bin /usr/local/bin
