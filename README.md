@@ -27,4 +27,5 @@ Snippet for use in vscode:
 		"AWS_SHARED_CREDENTIALS_FILE": "/var/run/.aws/credentials"
     },
 }
+
 ```
