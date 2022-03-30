@@ -16,6 +16,9 @@ RUN yum update -y \
     && yum clean all
 RUN amazon-linux-extras install docker
 RUN python3 -m pip install boto3 mypy
+# Set python3 as the default python
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
+    && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3.7 1
 # Install aws-cli v2
 COPY --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=installer /aws-cli-bin /usr/local/bin
