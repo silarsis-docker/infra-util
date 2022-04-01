@@ -25,7 +25,7 @@ COPY --from=installer /aws-cli-bin /usr/local/bin
 # Setup the user
 RUN useradd --create-home --shell /bin/bash kevin.littlejohn
 
-RUN echo "kevin.littlejohn ALL=(ALL) ALL" >> /etc/sudoers
+RUN echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn
 # Configure git
