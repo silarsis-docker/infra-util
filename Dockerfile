@@ -1,4 +1,4 @@
-FROM amazonlinux:latest as installer
+FROM amazonlinux:2.0.20220406.1 as installer
 RUN yum update -y \
     && yum install -y unzip \
     && yum clean all
@@ -7,7 +7,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/awscliv
     && rm -f /awscliv2.zip \
     && ./aws/install --bin-dir /aws-cli-bin/
 
-FROM amazonlinux:latest
+FROM amazonlinux:2.0.20220406.1
 
 RUN yum update -y \
     && yum install -y yum-utils less vim groff unzip python3 git tar jq sudo \
