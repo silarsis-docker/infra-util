@@ -6,11 +6,11 @@ RUN uname -p
 RUN ARCH=$(if [ `uname -p` = "aarch64" ]; then echo "arm64"; else echo "x86_64"; fi) \
     && echo $ARCH \
     && curl "https://awscli.amazonaws.com/awscli-exe-linux-$ARCH.zip" -o "/awscliv2.zip" \
-    && unzip /awscliv2.zip \
+    && unzip -q /awscliv2.zip \
     && rm -f /awscliv2.zip \
     && ./aws/install --bin-dir /aws-cli-bin/
 RUN yum install -y golang
-RUN go install github.com/multiprocessio/dsq@latest
+# RUN go install github.com/multiprocessio/dsq@latest
 
 FROM amazonlinux:2
 
