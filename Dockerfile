@@ -14,8 +14,8 @@ RUN yum update -y \
     && yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo \
     && yum install -y terraform \
     && yum clean all
-RUN amazon-linux-extras install docker
-RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n
+RUN amazon-linux-extras install docker epel
+RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n sqlite
 # Set python3 as the default python
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
     && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3.7 1
