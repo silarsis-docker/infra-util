@@ -2,7 +2,8 @@ FROM amazonlinux:2 as installer
 RUN yum update -y \
     && yum install -y unzip \
     && yum clean all
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/awscliv2.zip" \
+RUN uname -p
+RUN ARCH=$(if [ uname -p == 'aarch64' ] then "arm64" else "x86_64") curl "https://awscli.amazonaws.com/awscli-exe-linux-$ARCH.zip" -o "/awscliv2.zip" \
     && unzip /awscliv2.zip \
     && rm -f /awscliv2.zip \
     && ./aws/install --bin-dir /aws-cli-bin/
