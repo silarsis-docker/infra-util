@@ -3,9 +3,9 @@ RUN yum update -y \
     && yum install -y unzip \
     && yum clean all
 RUN uname -p
-RUN ARCH=$(if [ `uname -p` = "aarch64" ]; then echo "arm64"; else echo "x86_64"; fi) \
+RUN ARCH=$(uname -p) \
     && echo $ARCH \
-    && curl "https://awscli.amazonaws.com/awscli-exe-linux-$ARCH.zip" -o "/awscliv2.zip" \
+    && curl "https://awscli.amazonaws.com/awscli-exe-linux-${ARCH}.zip" -o "/awscliv2.zip" \
     && unzip -q /awscliv2.zip \
     && rm -f /awscliv2.zip \
     && ./aws/install --bin-dir /aws-cli-bin/
