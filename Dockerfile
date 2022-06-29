@@ -9,15 +9,15 @@ RUN ARCH=$(if [ `uname -p` = "aarch64" ]; then echo "arm64"; else echo "x86_64";
     && unzip -q /awscliv2.zip \
     && rm -f /awscliv2.zip \
     && ./aws/install --bin-dir /aws-cli-bin/
-RUN yum install -y golang
+# RUN yum install -qy golang
 # RUN go install github.com/multiprocessio/dsq@latest
 
 FROM amazonlinux:2
 
 RUN yum update -y \
-    && yum install -y yum-utils less vim groff unzip python3 git tar jq sudo \
+    && yum install -qy yum-utils less vim groff unzip python3 git tar jq sudo \
     && yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo \
-    && yum install -y terraform \
+    && yum install -qy terraform \
     && yum clean all
 RUN amazon-linux-extras install docker epel
 RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n
