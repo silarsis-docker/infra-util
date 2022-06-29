@@ -6,6 +6,8 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/awscliv
     && unzip /awscliv2.zip \
     && rm -f /awscliv2.zip \
     && ./aws/install --bin-dir /aws-cli-bin/
+RUN yum install -y golang
+RUN go install github.com/multiprocessio/dsq@latest
 
 FROM amazonlinux:2
 
