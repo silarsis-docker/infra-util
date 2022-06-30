@@ -12,8 +12,8 @@ RUN ARCH=$(uname -p) \
 # RUN yum install -y -q golang
 # RUN go install github.com/multiprocessio/dsq@latest
 
-FROM amazonlinux:2
 
+FROM amazonlinux:2
 RUN yum update -y -q \
     && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo \
     && yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo \
@@ -27,12 +27,18 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
 # Install aws-cli v2
 COPY --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=installer /aws-cli-bin /usr/local/bin
+COPY login.sh /usr/bin/login.sh
+RUN mkdir /var/run/.aws
 # Setup the user
 RUN useradd --create-home --shell /bin/bash kevin.littlejohn
-
 RUN echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn
+RUN ln -s /var/run/.aws ~/.aws \
+    && echo 'alias login=". /usr/bin/login.sh"' >> ~/.bashrc \
+    && echo 'echo ". login <accountname> <rolename> for AWS login"' >> ~/.bashrc \
+    && echo 'echo "~/.aws/aliases.sh can be used to extend the list of aliases if needed"' >> ~/.bashrc \
+    && echo '[[ -x ~/.aws/aliases.sh ]] && . ~/.aws/aliases.sh && alias | grep login' >> ~/.bashrc
 # Configure git
 RUN git config --global push.default simple \
     && git config --global user.name "Kevin Littlejohn" \
