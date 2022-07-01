@@ -34,7 +34,7 @@ RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n
 # Set python3 as the default python
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
     && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3.7 1
-# Install aws-cli v2 and sqlite3
+# Install packages from installer
 COPY --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=installer /aws-cli-bin /usr/local/bin
 COPY --from=installer /sqlite/sqlite3 /usr/bin/sqlite3
@@ -42,6 +42,7 @@ COPY --from=installer /sqlite/.libs/libsqlite3.so.0.8.6 /usr/lib64/libsqlite3.so
 COPY --from=installer /terraform /usr/bin/terraform
 COPY login.sh /usr/bin/login.sh
 RUN mkdir /var/run/.aws
+RUN chmod o+rwx /var/run/docker.sock
 # Setup the user
 RUN useradd --create-home --shell /bin/bash kevin.littlejohn
 RUN echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
