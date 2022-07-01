@@ -6,9 +6,7 @@ RUN yum update -y -q \
     # pre-req for aws-cli
     && yum install -y -q unzip \
     && yum clean all
-RUN uname -p
 RUN ARCH=$(uname -p) \
-    && echo $ARCH \
     && curl "https://awscli.amazonaws.com/awscli-exe-linux-${ARCH}.zip" -o "/awscliv2.zip" \
     && unzip -q /awscliv2.zip \
     && rm -f /awscliv2.zip \
@@ -18,6 +16,9 @@ RUN curl -o /sqlite.tgz https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=relea
     && cd sqlite \
     && ./configure \
     && make
+RUN ARCH=$(if [[ `uname -p` = "aarch64" || `uname -p` = "arm64" ]]; then echo "arm64"; else echo "amd64"; fi) \
+    && curl https://releases.hashicorp.com/terraform/1.2.4/terraform_1.2.4_linux_${ARCH}.zip -o /terraform.zip \
+    && unzip /terraform.zip
 # RUN yum install -y -q golang
 # RUN go install github.com/multiprocessio/dsq@latest
 
@@ -33,11 +34,12 @@ RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n
 # Set python3 as the default python
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
     && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3.7 1
-# Install aws-cli v2
+# Install aws-cli v2 and sqlite3
 COPY --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=installer /aws-cli-bin /usr/local/bin
 COPY --from=installer /sqlite/sqlite3 /usr/bin/sqlite3
 COPY --from=installer /sqlite/.libs/libsqlite3.so.0.8.6 /usr/lib64/libsqlite3.so.0.8.6
+COPY --from=installer /terraform /usr/bin/terraform
 COPY login.sh /usr/bin/login.sh
 RUN mkdir /var/run/.aws
 # Setup the user
