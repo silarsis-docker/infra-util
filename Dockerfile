@@ -1,5 +1,9 @@
 FROM amazonlinux:2 as installer
+# Update yum and install pre-reqs for builds
 RUN yum update -y -q \
+    # pre-reqs for sqlite
+    && yum install -y -q tar gzip make gcc expectk \
+    # pre-req for aws-cli
     && yum install -y -q unzip \
     && yum clean all
 RUN uname -p
@@ -9,6 +13,11 @@ RUN ARCH=$(uname -p) \
     && unzip -q /awscliv2.zip \
     && rm -f /awscliv2.zip \
     && ./aws/install --bin-dir /aws-cli-bin/
+RUN curl -o /sqlite.tgz https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=release \
+    && tar zxf sqlite.tgz \
+    && cd sqlite \
+    && ./configure \
+    && make
 # RUN yum install -y -q golang
 # RUN go install github.com/multiprocessio/dsq@latest
 
@@ -27,6 +36,8 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
 # Install aws-cli v2
 COPY --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=installer /aws-cli-bin /usr/local/bin
+COPY --from=installer /sqlite/sqlite3 /usr/bin/sqlite3
+COPY --from=installer /sqlite/.libs/libsqlite3.so.0.8.6 /usr/lib64/libsqlite3.so.0.8.6
 COPY login.sh /usr/bin/login.sh
 RUN mkdir /var/run/.aws
 # Setup the user
