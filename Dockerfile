@@ -42,7 +42,6 @@ COPY --from=installer /sqlite/.libs/libsqlite3.so.0.8.6 /usr/lib64/libsqlite3.so
 COPY --from=installer /terraform /usr/bin/terraform
 COPY login.sh /usr/bin/login.sh
 RUN mkdir /var/run/.aws
-RUN chmod o+rwx /var/run/docker.sock
 # Setup the user
 RUN useradd --create-home --shell /bin/bash kevin.littlejohn
 RUN echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
