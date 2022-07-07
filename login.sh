@@ -7,7 +7,7 @@ ACCOUNT_NAME=$1
 ROLE_NAME=$2
 
 EXP=$(grep -l accessToken ~/.aws/sso/cache/* | xargs jq '.expiresAt' -r)
-if [[ -z ${EXP} ]] || [[ ${EXP} < $(date --utc +"%Y-%m-0%dT%H:%M:%SZ") ]]; then
+if [[ -z ${EXP} ]] || [[ ${EXP} < $(date --utc +"%Y-%m-%dT%H:%M:%SZ") ]]; then
     aws sso login
 fi
 
