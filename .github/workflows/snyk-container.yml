@@ -23,8 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Build a Docker image
-      run: docker build -t silarsis/infra-util .
+    - name: Pull the Docker image
+      run: docker pull silarsis/infra-util
     - name: Run Snyk to check Docker image for vulnerabilities
       # Snyk can be used to break the build when it detects vulnerabilities.
       # In this case we want to upload the issues to GitHub Code Scanning
