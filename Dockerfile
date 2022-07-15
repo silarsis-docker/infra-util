@@ -2,7 +2,7 @@ FROM amazonlinux:2 as installer
 # Update yum and install pre-reqs for builds
 RUN yum update -y -q \
     # pre-reqs for sqlite
-    && yum install -y -q tar gzip make gcc expectk \
+    && yum install -y -q tar gzip make gcc expectk readline-devel \
     # pre-req for aws-cli
     && yum install -y -q unzip \
     && yum clean all
@@ -12,7 +12,7 @@ RUN ARCH=$(uname -p) \
     && rm -f /awscliv2.zip \
     && ./aws/install --bin-dir /aws-cli-bin/
 RUN curl -o /sqlite.tgz https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=release \
-    && tar zxf sqlite.tgz \
+    && tar zxf /sqlite.tgz \
     && cd sqlite \
     && ./configure \
     && make
