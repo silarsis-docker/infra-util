@@ -4,7 +4,7 @@ RUN yum update -y -q \
     # pre-reqs for sqlite
     && yum install -y -q tar gzip make gcc expectk readline-devel \
     # pre-req for aws-cli
-    && yum install -y -q unzip \
+    && yum install -y -q unzip groff \
     && yum clean all
 RUN ARCH=$(uname -p) \
     && curl "https://awscli.amazonaws.com/awscli-exe-linux-${ARCH}.zip" -o "/awscliv2.zip" \
