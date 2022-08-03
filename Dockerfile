@@ -1,4 +1,4 @@
-FROM amazonlinux:2 as installer
+FROM amazonlinux:latest as installer
 # Update yum and install pre-reqs for builds
 RUN yum update -y -q \
     # pre-reqs for sqlite
@@ -23,7 +23,7 @@ RUN ARCH=$(if [[ `uname -p` = "aarch64" || `uname -p` = "arm64" ]]; then echo "a
 # RUN go install github.com/multiprocessio/dsq@latest
 
 
-FROM amazonlinux:2
+FROM amazonlinux:latest
 RUN yum update -y -q \
     && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo \
     && yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo \
