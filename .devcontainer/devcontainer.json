@@ -39,5 +39,5 @@
         "AWS_PROFILE": "${localEnv:AWS_PROFILE}",
 		"AWS_CONFIG_FILE": "/var/run/.aws/config",
 		"AWS_SHARED_CREDENTIALS_FILE": "/var/run/.aws/credentials"
-    },
+    }
 }
