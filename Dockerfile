@@ -26,9 +26,9 @@ RUN ARCH=$(if [[ `uname -p` = "aarch64" || `uname -p` = "arm64" ]]; then echo "a
 FROM amazonlinux:latest
 RUN yum update -y -q \
     && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo \
-    && yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo \
     # Terraform not available for arm64 yet hence masking the failure
-    && yum install -y -q terraform || /bin/true \
+    # && yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo \
+    # && yum install -y -q terraform || /bin/true \
     # Security tooling
     && yum install -y -q nmap \
     && yum clean all
