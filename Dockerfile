@@ -25,18 +25,18 @@ RUN ARCH=$(if [[ `uname -p` = "aarch64" || `uname -p` = "arm64" ]]; then echo "a
 
 FROM amazonlinux:latest
 RUN yum update -y -q \
+    # Basics I want everywhere
     && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo \
-    # Terraform not available for arm64 yet hence masking the failure
-    # && yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo \
-    # && yum install -y -q terraform || /bin/true \
     # Security tooling
     && yum install -y -q nmap \
     && yum clean all
 RUN amazon-linux-extras install docker epel
+# Useful python modules
 RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n awswrangler
 # Set python3 as the default python
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
-    && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3.7 1
+    && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3.7 1 \
+    && sed -i 's|/usr/bin/python|/usr/bin/python2|' /usr/bin/yum
 # Install packages from installer
 COPY --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=installer /aws-cli-bin /usr/local/bin
@@ -53,7 +53,7 @@ WORKDIR /home/kevin.littlejohn
 RUN ln -s /var/run/.aws ~/.aws \
     && echo 'alias login=". /usr/bin/login.sh"' >> ~/.bashrc \
     && echo 'echo ". login <accountname> <rolename> for AWS login"' >> ~/.bashrc \
-    && echo 'echo "~/.aws/aliases.sh can be used to extend the list of aliases if needed"' >> ~/.bashrc \
+    && echo 'echo "~/.aws/aliases.sh on the host can be used to extend the list of aliases if needed"' >> ~/.bashrc \
     && echo '[[ -x ~/.aws/aliases.sh ]] && . ~/.aws/aliases.sh && alias | grep login' >> ~/.bashrc
 # Configure git
 RUN git config --global push.default simple \
