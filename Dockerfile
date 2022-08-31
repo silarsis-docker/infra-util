@@ -32,9 +32,9 @@ RUN wget -qO- https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVers
 	mv ZAP*/* . && \
 	rm -R ZAP*
 # Update add-ons
-RUN ./zap.sh -cmd -silent -addonupdate
+#RUN ./zap.sh -cmd -silent -addonupdate
 # Copy them to installation directory
-RUN cp /root/.ZAP/plugin/*.zap plugin/ || :
+#RUN cp /root/.ZAP/plugin/*.zap plugin/ || :
 # Setup Webswing
 ENV WEBSWING_VERSION 22.1.3
 ARG WEBSWING_URL=""
