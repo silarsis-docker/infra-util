@@ -30,7 +30,7 @@ RUN yum update -y -q \
     # Terraform not available for arm64 yet hence masking the failure
     && yum install -y -q terraform || /bin/true \
     # Security tooling
-    && yum install nmap \
+    && yum install -y -q nmap \
     && yum clean all
 RUN amazon-linux-extras install docker epel
 RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n awswrangler
