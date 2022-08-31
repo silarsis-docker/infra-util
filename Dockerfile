@@ -17,7 +17,7 @@ RUN curl -o /sqlite.tgz https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=relea
     && ./configure \
     && make
 RUN ARCH=$(if [[ `uname -p` = "aarch64" || `uname -p` = "arm64" ]]; then echo "arm64"; else echo "amd64"; fi) \
-    && curl https://releases.hashicorp.com/terraform/1.2.4/terraform_1.2.4_linux_${ARCH}.zip -o /terraform.zip \
+    && curl https://releases.hashicorp.com/terraform/1.2.8/terraform_1.2.8_linux_${ARCH}.zip -o /terraform.zip \
     && unzip /terraform.zip
 # RUN yum install -y -q golang
 # RUN go install github.com/multiprocessio/dsq@latest
