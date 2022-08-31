@@ -36,7 +36,8 @@ RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n 
 # Set python3 as the default python
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
     && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3.7 1 \
-    && sed -i 's|/usr/bin/python|/usr/bin/python2|' /usr/bin/yum
+    && sed -i 's|/usr/bin/python$|/usr/bin/python2|' /usr/bin/yum \
+    && sed -i 's|/usr/bin/python$|/usr/bin/python2|' /usr/libexec/urlgrabber-ext-down
 # Install packages from installer
 COPY --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=installer /aws-cli-bin /usr/local/bin
