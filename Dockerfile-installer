@@ -7,7 +7,7 @@ RUN yum update -y -q \
     && yum install -y -q unzip \
     # pre-req for zap
     && amazon-linux-extras install docker epel \
-    && yum install -y -q wget xmlstarlet \
+    && yum install -y -q wget xmlstarlet java-latest-openjdk \
     && yum clean all
 RUN ARCH=$(uname -p) \
     && curl "https://awscli.amazonaws.com/awscli-exe-linux-${ARCH}.zip" -o "/awscliv2.zip" \
