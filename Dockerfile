@@ -6,10 +6,10 @@ FROM amazonlinux:latest
 RUN yum update -y -q \
     # Basics I want everywhere
     && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo \
+    && amazon-linux-extras install docker epel \
     # Security tooling
-    && yum install -y -q nmap \
+    && yum install -y -q nmap xmlstarlet java-latest-openjdk \
     && yum clean all
-RUN amazon-linux-extras install docker epel
 # Useful python modules
 RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n awswrangler python-owasp-zap-v2.4 zapcli
 # Set python3 as the default python
@@ -24,7 +24,6 @@ COPY --from=installer /sqlite/sqlite3 /usr/bin/sqlite3
 COPY --from=installer /sqlite/.libs/libsqlite3.so.0.8.6 /usr/lib64/libsqlite3.so.0.8.6
 COPY --from=installer /terraform /usr/bin/terraform
 COPY --from=installer /zap /zap
-#COPY --from=installer /zap/webswing /zap/webswing
 COPY login.sh /usr/bin/login.sh
 RUN mkdir /var/run/.aws
 # Setup the user
