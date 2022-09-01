@@ -32,6 +32,7 @@ RUN wget -qO- https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVers
 	mv ZAP*/* . && \
 	rm -R ZAP*
 # Update add-ons
+RUN uname -p
 RUN if [[ `uname -p` = "aarch64" || `uname -p` = "arm64" ]]; then echo "arm64 does not work yet"; else ./zap.sh -cmd -silent -addonupdate; fi
 # Copy them to installation directory
 RUN cp /root/.ZAP/plugin/*.zap plugin/ || :
