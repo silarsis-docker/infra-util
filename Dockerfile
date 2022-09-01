@@ -25,6 +25,8 @@ COPY --from=installer /sqlite/.libs/libsqlite3.so.0.8.6 /usr/lib64/libsqlite3.so
 COPY --from=installer /terraform /usr/bin/terraform
 COPY --from=installer /zap /zap
 COPY login.sh /usr/bin/login.sh
+RUN chmod +x /usr/bin/login.sh
+COPY CONTENTS.md /CONTENTS.md
 RUN mkdir /var/run/.aws
 # Setup the user
 RUN useradd --create-home --shell /bin/bash kevin.littlejohn
@@ -32,12 +34,10 @@ RUN echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn
 RUN mkdir .vnc
+RUN ln -s /var/run/.aws ~/.aws 
+COPY bashrc.sh /home/kevin.littlejohn/.bashrc
+RUN chown kevin.littlejohn .bashrc && chmod +x .bashrc
 RUN git clone --depth 1 https://github.com/danielmiessler/SecLists.git
-RUN ln -s /var/run/.aws ~/.aws \
-    && echo 'alias login=". /usr/bin/login.sh"' >> ~/.bashrc \
-    && echo 'echo ". login <accountname> <rolename> for AWS login"' >> ~/.bashrc \
-    && echo 'echo "~/.aws/aliases.sh on the host can be used to extend the list of aliases if needed"' >> ~/.bashrc \
-    && echo '[[ -x ~/.aws/aliases.sh ]] && . ~/.aws/aliases.sh && alias | grep login' >> ~/.bashrc
 # Configure git
 RUN git config --global push.default simple \
     && git config --global user.name "Kevin Littlejohn" \
