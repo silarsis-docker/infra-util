@@ -24,7 +24,7 @@ COPY --from=installer /sqlite/sqlite3 /usr/bin/sqlite3
 COPY --from=installer /sqlite/.libs/libsqlite3.so.0.8.6 /usr/lib64/libsqlite3.so.0.8.6
 COPY --from=installer /terraform /usr/bin/terraform
 COPY --from=installer /zap /zap
-COPY --from=installer /zap/webswing /zap/webswing
+#COPY --from=installer /zap/webswing /zap/webswing
 COPY login.sh /usr/bin/login.sh
 RUN mkdir /var/run/.aws
 # Setup the user
