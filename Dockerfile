@@ -31,12 +31,12 @@ RUN mkdir /var/run/.aws
 # Setup the user
 RUN useradd --create-home --shell /bin/bash kevin.littlejohn
 RUN echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+COPY bashrc.sh /home/kevin.littlejohn/.bashrc
+RUN chown kevin.littlejohn /home/kevin.littlejohn/.bashrc && chmod +x /home/kevin.littlejohn/.bashrc
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn
 RUN mkdir .vnc
 RUN ln -s /var/run/.aws ~/.aws 
-COPY bashrc.sh /home/kevin.littlejohn/.bashrc
-RUN chown kevin.littlejohn .bashrc && chmod +x .bashrc
 RUN git clone --depth 1 https://github.com/danielmiessler/SecLists.git
 # Configure git
 RUN git config --global push.default simple \
