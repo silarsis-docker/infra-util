@@ -8,7 +8,7 @@ RUN yum update -y -q \
     && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo bzip2 \
     && amazon-linux-extras install docker epel \
     # Security tooling
-    && yum install -y -q nmap xmlstarlet java-latest-openjdk gmp openssl bzip2-libs libpcap \
+    && yum install -y -q nmap xmlstarlet java-latest-openjdk gmp openssl bzip2-libs libpcap bc \
     && yum clean all
 # Useful python modules
 RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n awswrangler python-owasp-zap-v2.4 zapcli
