@@ -29,9 +29,8 @@ RUN wget -qO- https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVers
     | wget --content-disposition -i - -qO - | tar zx \
     && mv ZAP*/* . \
     && rm -R ZAP*
-# Update add-ons
-RUN uname -p
-RUN ./zap.sh -cmd -addonupdate
+# Update add-ons - for some reason this dies on arm64 on github actions
+RUN if [[ `uname -p` != "arm64" ]]; then ./zap.sh -cmd -addonupdate; fi
 # Copy them to installation directory
 RUN cp /root/.ZAP/plugin/*.zap plugin/ || :
 # Setup Webswing
