@@ -2,10 +2,11 @@ FROM amazonlinux:latest
 # Update yum and install pre-reqs for builds
 RUN yum update -y -q \
     # pre-reqs for sqlite
-    && yum install -y -q tar gzip make gcc expectk readline-devel \
+    && yum install -y -q tar gzip make gcc expectk readline-devel yum-utils \
     # pre-req for aws-cli
     && yum install -y -q unzip \
     # pre-req for zap
+    && amazon-linux-extras install docker epel \
     && yum install -y -q wget xmlstarlet \
     && yum clean all
 RUN ARCH=$(uname -p) \
@@ -23,6 +24,8 @@ RUN ARCH=$(if [[ `uname -p` = "aarch64" || `uname -p` = "arm64" ]]; then echo "a
     && unzip /terraform.zip
 WORKDIR /zap
 # Download and expand the latest stable release
+RUN yum install -y xmlstarlet
+RUN echo $PATH
 RUN wget -qO- https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVersions.xml | xmlstarlet sel -t -v //url |grep -i Linux | wget --content-disposition -i - -O - | tar zxv && \
 	mv ZAP*/* . && \
 	rm -R ZAP*
