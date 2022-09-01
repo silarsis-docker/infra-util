@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - Dockerfile
+      - login.sh
   workflow_dispatch:
 
 jobs:
