@@ -32,7 +32,7 @@ RUN echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn
 RUN mkdir .vnc
-RUN git checkout https://github.com/bl4de/dictionaries.git
+RUN git clone https://github.com/bl4de/dictionaries.git
 RUN ln -s /var/run/.aws ~/.aws \
     && echo 'alias login=". /usr/bin/login.sh"' >> ~/.bashrc \
     && echo 'echo ". login <accountname> <rolename> for AWS login"' >> ~/.bashrc \
