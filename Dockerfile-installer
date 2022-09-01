@@ -17,7 +17,7 @@ RUN ARCH=$(uname -p) \
 RUN curl -s 'https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=release' | tar zx \
     && cd sqlite \
     && ./configure \
-    && make
+    && make -s -j$(nproc)
 RUN ARCH=$(if [[ `uname -p` = "aarch64" || `uname -p` = "arm64" ]]; then echo "arm64"; else echo "amd64"; fi) \
     && curl -s https://releases.hashicorp.com/terraform/1.2.8/terraform_1.2.8_linux_${ARCH}.zip -o /terraform.zip \
     && unzip -q /terraform.zip
