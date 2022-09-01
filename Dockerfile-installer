@@ -22,10 +22,9 @@ RUN curl -o /sqlite.tgz https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=relea
 RUN ARCH=$(if [[ `uname -p` = "aarch64" || `uname -p` = "arm64" ]]; then echo "arm64"; else echo "amd64"; fi) \
     && curl https://releases.hashicorp.com/terraform/1.2.8/terraform_1.2.8_linux_${ARCH}.zip -o /terraform.zip \
     && unzip /terraform.zip
+RUN mkdir /zap
 WORKDIR /zap
 # Download and expand the latest stable release
-RUN yum install -y xmlstarlet
-RUN echo $PATH
 RUN wget -qO- https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVersions.xml | xmlstarlet sel -t -v //url |grep -i Linux | wget --content-disposition -i - -O - | tar zxv && \
 	mv ZAP*/* . && \
 	rm -R ZAP*
@@ -40,7 +39,7 @@ ARG WEBSWING_URL=""
 RUN if [ -z "$WEBSWING_URL" ] ; \
 	then curl -s -L  "https://dev.webswing.org/files/public/webswing-examples-eval-${WEBSWING_VERSION}-distribution.zip" > webswing.zip; \
 	else curl -s -L  "$WEBSWING_URL-${WEBSWING_VERSION}-distribution.zip" > webswing.zip; fi && \
-	unzip webswing.zip && \
+	unzip -q webswing.zip && \
 	rm webswing.zip && \
 	mv webswing-* webswing && \
 	# Remove Webswing bundled examples
