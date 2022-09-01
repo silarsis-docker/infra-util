@@ -1,27 +1,5 @@
 # Build awscli, sqlite and terraform
-FROM amazonlinux:latest as installer
-# Update yum and install pre-reqs for builds
-RUN yum update -y -q \
-    # pre-reqs for sqlite
-    && yum install -y -q tar gzip make gcc expectk readline-devel \
-    # pre-req for aws-cli
-    && yum install -y -q unzip \
-    && yum clean all
-RUN ARCH=$(uname -p) \
-    && curl "https://awscli.amazonaws.com/awscli-exe-linux-${ARCH}.zip" -o "/awscliv2.zip" \
-    && unzip -q /awscliv2.zip \
-    && rm -f /awscliv2.zip \
-    && ./aws/install --bin-dir /aws-cli-bin/
-RUN curl -o /sqlite.tgz https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=release \
-    && tar zxf /sqlite.tgz \
-    && cd sqlite \
-    && ./configure \
-    && make
-RUN ARCH=$(if [[ `uname -p` = "aarch64" || `uname -p` = "arm64" ]]; then echo "arm64"; else echo "amd64"; fi) \
-    && curl https://releases.hashicorp.com/terraform/1.2.8/terraform_1.2.8_linux_${ARCH}.zip -o /terraform.zip \
-    && unzip /terraform.zip
-# RUN yum install -y -q golang
-# RUN go install github.com/multiprocessio/dsq@latest
+FROM silarsis/infra-util-installer as installer
 
 # Build OWASP ZAP - stolen from https://github.com/zaproxy/zaproxy/blob/main/docker/Dockerfile-stable
 FROM openjdk:8-jdk-alpine AS zap-builder
