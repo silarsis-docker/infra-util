@@ -11,7 +11,7 @@ RUN yum update -y -q \
     && yum install -y -q nmap xmlstarlet java-latest-openjdk gmp openssl bzip2-libs libpcap bc \
     && yum clean all
 # Useful python modules
-RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n awswrangler python-owasp-zap-v2.4 zapcli
+RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n awswrangler python-owasp-zap-v2.4 zapcli pycryptodome
 # Set python3 as the default python
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
     && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3.7 1 \
