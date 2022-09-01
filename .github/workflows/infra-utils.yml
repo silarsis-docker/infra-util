@@ -1,4 +1,4 @@
-name: Build and publish infra-utils image
+name: Infra Utils Image
 
 on:
   push:
