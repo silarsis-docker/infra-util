@@ -5,7 +5,7 @@ FROM silarsis/infra-util-installer as installer
 FROM amazonlinux:latest
 RUN yum update -y -q \
     # Basics I want everywhere
-    && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo bzip2 \
+    && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo bzip2 procps \
     && amazon-linux-extras install docker epel \
     # Security tooling
     && yum install -y -q nmap xmlstarlet java-latest-openjdk gmp openssl bzip2-libs libpcap bc checksec \
