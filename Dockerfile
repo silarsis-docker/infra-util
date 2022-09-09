@@ -32,7 +32,8 @@ COPY --link contents/fix_docker.sh /usr/local/bin/fix_docker.sh
 RUN chmod +x /usr/local/bin/login.sh /usr/local/bin/fix_docker.sh
 COPY --link contents/CONTENTS.md /CONTENTS.md
 RUN mkdir /var/run/.aws
-# Setup the user
+# Setup the user - the specification of uid and gid is needed because the --link allows
+# the copy to happen before the useradd, breaking things if you refer by name
 RUN groupadd -g 1000 kevin.littlejohn \
     && useradd --create-home --shell /bin/bash -u 1000 -g 1000 kevin.littlejohn -G docker \
     && echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
