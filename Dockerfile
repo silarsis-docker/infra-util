@@ -39,8 +39,8 @@ COPY --link bashrc.sh /home/kevin.littlejohn/.bashrc
 RUN chown kevin.littlejohn /home/kevin.littlejohn/.bashrc && chmod +x /home/kevin.littlejohn/.bashrc
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn
-RUN mkdir .vnc
-RUN ln -s /var/run/.aws ~/.aws \
+RUN mkdir ~/.vnc \
+    && ln -s /var/run/.aws ~/.aws \
     && ln -s /var/run/.ssh ~/.ssh
 # Configure git
 RUN git config --global push.default simple \
