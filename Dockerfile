@@ -35,11 +35,12 @@ RUN mkdir /var/run/.aws
 # Setup the user
 RUN useradd --create-home --shell /bin/bash kevin.littlejohn -G docker
 RUN ls -la /home/kevin.littlejohn
+RUN ls -la /home/kevin.littlejohn
 RUN echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN ls -la /home/kevin.littlejohn
 COPY --link bashrc.sh /home/kevin.littlejohn/.bashrc
 RUN ls -la /home/kevin.littlejohn
 RUN chown kevin.littlejohn /home/kevin.littlejohn/.bashrc && chmod +x /home/kevin.littlejohn/.bashrc
-RUN ls -la /home/kevin.littlejohn
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn
 RUN ls -la /home/kevin.littlejohn
