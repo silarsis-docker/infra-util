@@ -33,9 +33,9 @@ RUN chmod +x /usr/local/bin/login.sh /usr/local/bin/fix_docker.sh
 COPY --link CONTENTS.md /CONTENTS.md
 RUN mkdir /var/run/.aws
 # Setup the user
-RUN useradd --create-home --shell /bin/bash kevin.littlejohn -G docker
+RUN useradd --create-home --shell /bin/bash -u 1000 -g 1000 kevin.littlejohn -G docker
 RUN echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-COPY --link --chown=kevin.littlejohn:kevin.littlejohn bashrc.sh /home/kevin.littlejohn/.bashrc
+COPY --link --chown=1000:1000 bashrc.sh /home/kevin.littlejohn/.bashrc
 RUN ls -la /home/kevin.littlejohn
 RUN chmod +x /home/kevin.littlejohn/.bashrc
 RUN ls -la /home/kevin.littlejohn
