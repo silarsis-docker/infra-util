@@ -47,3 +47,4 @@ RUN yum install -y -q git make openssl openssl-libs openssl-devel gmp-devel bzip
   && cd john/src \
   && ./configure \
   && make -s -j$(nproc)
+RUN git clone --depth 1 https://github.com/danielmiessler/SecLists.git

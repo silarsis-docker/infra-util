@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # Build awscli, sqlite and terraform
 FROM silarsis/infra-util-installer as installer
 
@@ -18,13 +19,14 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
     && sed -i 's|/usr/bin/python$|/usr/bin/python2|' /usr/bin/yum \
     && sed -i 's|/usr/bin/python$|/usr/bin/python2|' /usr/libexec/urlgrabber-ext-down
 # Install packages from installer
-COPY --from=installer /usr/local/aws-cli /usr/local/aws-cli
-COPY --from=installer /aws-cli-bin /usr/local/bin
-COPY --from=installer /sqlite/sqlite3 /usr/bin/sqlite3
-COPY --from=installer /sqlite/.libs/libsqlite3.so.0.8.6 /usr/lib64/libsqlite3.so.0.8.6
-COPY --from=installer /terraform /usr/bin/terraform
-COPY --from=installer /zap /opt/zap
-COPY --from=installer /john/run /opt/john
+COPY --link --from=installer /usr/local/aws-cli /usr/local/aws-cli
+COPY --link --from=installer /aws-cli-bin /usr/local/bin
+COPY --link --from=installer /sqlite/sqlite3 /usr/bin/sqlite3
+COPY --link --from=installer /sqlite/.libs/libsqlite3.so.0.8.6 /usr/lib64/libsqlite3.so.0.8.6
+COPY --link --from=installer /terraform /usr/bin/terraform
+COPY --link --from=installer /zap /opt/zap
+COPY --link --from=installer /john/run /opt/john
+COPY --link --from=installer /SecLists /opt/SecLists
 COPY login.sh /usr/bin/login.sh
 RUN chmod +x /usr/bin/login.sh
 COPY CONTENTS.md /CONTENTS.md
@@ -37,8 +39,8 @@ RUN chown kevin.littlejohn /home/kevin.littlejohn/.bashrc && chmod +x /home/kevi
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn
 RUN mkdir .vnc
-RUN ln -s /var/run/.aws ~/.aws 
-RUN git clone --depth 1 https://github.com/danielmiessler/SecLists.git
+RUN ln -s /var/run/.aws ~/.aws \
+    && ln -s /var/run/.ssh ~/.ssh
 # Configure git
 RUN git config --global push.default simple \
     && git config --global user.name "Kevin Littlejohn" \
