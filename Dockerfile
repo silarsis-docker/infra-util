@@ -39,6 +39,9 @@ COPY --link bashrc.sh /home/kevin.littlejohn/.bashrc
 RUN chown kevin.littlejohn /home/kevin.littlejohn/.bashrc && chmod +x /home/kevin.littlejohn/.bashrc
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn
+RUN ls -la /home/kevin.littlejohn
+RUN id
+RUN ls -la ~
 RUN mkdir ~/.vnc \
     && ln -s /var/run/.aws ~/.aws \
     && ln -s /var/run/.ssh ~/.ssh
