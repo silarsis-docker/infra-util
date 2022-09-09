@@ -27,14 +27,15 @@ COPY --link --from=installer /terraform /usr/bin/terraform
 COPY --link --from=installer /zap /opt/zap
 COPY --link --from=installer /john/run /opt/john
 COPY --link --from=installer /SecLists /opt/SecLists
-COPY login.sh /usr/bin/login.sh
-RUN chmod +x /usr/bin/login.sh
-COPY CONTENTS.md /CONTENTS.md
+COPY --link login.sh /usr/local/bin/login.sh
+COPY --link fix_docker.sh /usr/local/bin/fix_docker.sh
+RUN chmod +x /usr/local/bin/login.sh /usr/local/bin/fix_docker.sh
+COPY --link CONTENTS.md /CONTENTS.md
 RUN mkdir /var/run/.aws
 # Setup the user
-RUN useradd --create-home --shell /bin/bash kevin.littlejohn
+RUN useradd --create-home --shell /bin/bash kevin.littlejohn -G docker
 RUN echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-COPY bashrc.sh /home/kevin.littlejohn/.bashrc
+COPY --link bashrc.sh /home/kevin.littlejohn/.bashrc
 RUN chown kevin.littlejohn /home/kevin.littlejohn/.bashrc && chmod +x /home/kevin.littlejohn/.bashrc
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn

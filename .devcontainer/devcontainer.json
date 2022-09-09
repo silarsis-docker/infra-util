@@ -41,8 +41,9 @@
         "AWS_PROFILE": "${localEnv:AWS_PROFILE}",
 		"AWS_CONFIG_FILE": "/var/run/.aws/config",
 		"AWS_SHARED_CREDENTIALS_FILE": "/var/run/.aws/credentials",
-		"DISPLAY": "${localEnv:DISPLAY}"
+		"DISPLAY": "${localEnv:DISPLAY}",
+		"WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
     },
 	"runArgs": ["--net=host"],
-	"postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+	"postCreateCommand": "sudo /usr/local/bin/fix_docker.sh"
 }
