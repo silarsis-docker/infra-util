@@ -34,17 +34,12 @@ COPY --link CONTENTS.md /CONTENTS.md
 RUN mkdir /var/run/.aws
 # Setup the user
 RUN groupadd -g 1000 kevin.littlejohn \
-    && useradd --create-home --shell /bin/bash -u 1000 -g 1000 kevin.littlejohn -G docker
-RUN echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    && useradd --create-home --shell /bin/bash -u 1000 -g 1000 kevin.littlejohn -G docker \
+    && echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 COPY --link --chown=1000:1000 bashrc.sh /home/kevin.littlejohn/.bashrc
-RUN ls -la /home/kevin.littlejohn
 RUN chmod +x /home/kevin.littlejohn/.bashrc
-RUN ls -la /home/kevin.littlejohn
 USER kevin.littlejohn
 WORKDIR /home/kevin.littlejohn
-RUN ls -la /home/kevin.littlejohn
-RUN id
-RUN ls -la ~
 RUN mkdir ~/.vnc \
     && ln -s /var/run/.aws ~/.aws \
     && ln -s /var/run/.ssh ~/.ssh
