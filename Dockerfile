@@ -25,8 +25,6 @@ COPY --link --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --link --from=installer /aws-cli-bin /usr/local/bin
 COPY --link --from=installer /sqlite/sqlite3 /usr/bin/sqlite3
 COPY --link --from=installer /sqlite/.libs/libsqlite3.so.0.8.6 /usr/lib64/libsqlite3.so.0.8.6
-# Security tools
-COPY --link --from=installer /john/run /opt/john
 # Container-specific local scripts
 COPY --link contents/login.sh /usr/local/bin/login.sh
 COPY --link contents/fix_docker.sh /usr/local/bin/fix_docker.sh
