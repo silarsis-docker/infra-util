@@ -6,6 +6,9 @@ while [[ $# -gt 0 ]]; do
     opt="$1"
     shift
     case "$opt" in
+        "--list" )
+            echo "'sudo install.sh' options: SecLists, ghidra, terraform, zap, john";
+            exit;;
         "SecLists" )
             rpath="/SecLists";
             lpath="/opt/SecLists";;
@@ -18,6 +21,9 @@ while [[ $# -gt 0 ]]; do
         "zap" )
             rpath="/zap";
             lpath="/opt/zap";;
+        "john" )
+            rpath="/opt/john";
+            lpath="/opt/john";;
         *) echo >&2 "Unknown installation $opt"
     esac
 done
