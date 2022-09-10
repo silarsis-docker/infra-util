@@ -1,11 +1,6 @@
 name: Infra Utils Installer Image
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - Dockerfile-installer
   workflow_dispatch:
 
 jobs:

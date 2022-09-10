@@ -1,14 +1,6 @@
 name: Infra Utils Image
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - Dockerfile
-      - login.sh
-      - bashrc.sh
-      - CONTENTS.md
   workflow_dispatch:
 
 jobs:
