@@ -49,6 +49,6 @@ RUN yum install -y -q git make openssl openssl-libs openssl-devel gmp-devel bzip
   && make -s -j$(nproc)
 RUN git clone --depth 1 https://github.com/danielmiessler/SecLists.git
 # Ghidra for decompiling things
-RUN wget https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_10.1.5_build/ghidra_10.1.5_PUBLIC_20220726.zip \
-    && unzip ghidra_10.1.5_PUBLIC_20220726.zip \
+RUN wget -q https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_10.1.5_build/ghidra_10.1.5_PUBLIC_20220726.zip \
+    && unzip -q ghidra_10.1.5_PUBLIC_20220726.zip \
     && mv ghidra_10.1.5_PUBLIC ghidra
