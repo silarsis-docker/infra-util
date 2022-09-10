@@ -20,7 +20,8 @@ RUN curl -s 'https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=release' | tar z
     && make -s -j$(nproc)
 RUN ARCH=$(if [[ `uname -p` = "aarch64" || `uname -p` = "arm64" ]]; then echo "arm64"; else echo "amd64"; fi) \
     && curl -s https://releases.hashicorp.com/terraform/1.2.8/terraform_1.2.8_linux_${ARCH}.zip -o /terraform.zip \
-    && unzip -q /terraform.zip
+    && unzip -q /terraform.zip \
+    && rm -f /terraform.zip
 RUN mkdir /zap
 WORKDIR /zap
 # Download and expand the latest stable release
@@ -43,12 +44,18 @@ RUN cp /root/.ZAP/plugin/*.zap plugin/ || :
 # John the Ripper
 WORKDIR /
 RUN yum install -y -q git make openssl openssl-libs openssl-devel gmp-devel bzip2-devel libpcap-devel \
+  && yum clean all \
   && git clone https://github.com/openwall/john.git \
   && cd john/src \
   && ./configure \
-  && make -s -j$(nproc)
+  && make -s -j$(nproc) \
+  && mv /john/run /opt/john \
+  && cd / \
+  && rm -rf /john
+# Big word list
 RUN git clone --depth 1 https://github.com/danielmiessler/SecLists.git
 # Ghidra for decompiling things
 RUN wget -q https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_10.1.5_build/ghidra_10.1.5_PUBLIC_20220726.zip \
     && unzip -q ghidra_10.1.5_PUBLIC_20220726.zip \
-    && mv ghidra_10.1.5_PUBLIC ghidra
+    && mv ghidra_10.1.5_PUBLIC ghidra \
+    && rm -f ghidra_10.1.5_PUBLIC_20220726.zip
