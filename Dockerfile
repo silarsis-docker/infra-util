@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-# Build awscli, sqlite and terraform
+# Build a bunch of stuff we might want
 FROM silarsis/infra-util-installer as installer
 
 # Build our actual image
@@ -34,7 +34,7 @@ RUN chmod +x /usr/local/bin/login.sh /usr/local/bin/fix_docker.sh /usr/local/bin
 COPY --link contents/CONTENTS.md /CONTENTS.md
 RUN mkdir /var/run/.aws
 # Setup the user - the specification of uid and gid is needed because the --link allows
-# the copy to happen before the useradd, breaking things if you refer by name
+# the bashrc copy to happen before the useradd, breaking things if you refer by name
 RUN groupadd -g 1000 kevin.littlejohn \
     && useradd --create-home --shell /bin/bash -u 1000 -g 1000 kevin.littlejohn -G docker \
     && echo "kevin.littlejohn ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
