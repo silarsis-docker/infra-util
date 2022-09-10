@@ -22,11 +22,12 @@ Snippet for use in vscode:
         "AWS_PROFILE": "${localEnv:AWS_PROFILE}",
 		"AWS_CONFIG_FILE": "/var/run/.aws/config",
 		"AWS_SHARED_CREDENTIALS_FILE": "/var/run/.aws/credentials",
-		"DISPLAY": "${env:DISPLAY}",
+		"DISPLAY": "${localEnv:DISPLAY}",
 		"WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
     },
 	"runArgs": ["--net=host"],
 }
 ```
 
-Note, this vscode snippet enables aws credential sharing with host, ssh config sharing with host, and X11
+Note, this vscode snippet enables aws credential sharing with host, ssh config sharing with host, and X11.
+

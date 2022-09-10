@@ -6,10 +6,10 @@ FROM silarsis/infra-util-installer as installer
 FROM amazonlinux:latest
 RUN yum update -y -q \
     # Basics I want everywhere
-    && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo bzip2 procps socat iputils xorg-x11-server-utils \
+    && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo bzip2 procps socat iputils xorg-x11-server-utils wget \
     && amazon-linux-extras install docker epel \
     # Security tooling
-    && yum install -y -q nmap xmlstarlet java-latest-openjdk gmp openssl bzip2-libs libpcap bc checksec \
+    && yum install -y -q nmap xmlstarlet gmp openssl bzip2-libs libpcap bc checksec java-latest-openjdk java-latest-openjdk-devel \
     && yum clean all
 # Useful python modules
 RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n awswrangler python-owasp-zap-v2.4 zapcli pycryptodome
@@ -17,20 +17,22 @@ RUN python3 -m pip install boto3 mypy typing_extensions pdbpp types-urllib3 c7n 
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
     && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3.7 1 \
     && sed -i 's|/usr/bin/python$|/usr/bin/python2|' /usr/bin/yum \
-    && sed -i 's|/usr/bin/python$|/usr/bin/python2|' /usr/libexec/urlgrabber-ext-down
+    && sed -i 's|/usr/bin/python$|/usr/bin/python2|' /usr/libexec/urlgrabber-ext-down \
+    && sed -i 's|/usr/bin/python$|/usr/bin/python2|' /usr/bin/repoquery
 # Install packages from installer
+# Network and general purpose tools
 COPY --link --from=installer /usr/local/aws-cli /usr/local/aws-cli
 COPY --link --from=installer /aws-cli-bin /usr/local/bin
 COPY --link --from=installer /sqlite/sqlite3 /usr/bin/sqlite3
 COPY --link --from=installer /sqlite/.libs/libsqlite3.so.0.8.6 /usr/lib64/libsqlite3.so.0.8.6
-COPY --link --from=installer /terraform /usr/bin/terraform
-COPY --link --from=installer /zap /opt/zap
+# Security tools
 COPY --link --from=installer /john/run /opt/john
-COPY --link --from=installer /SecLists /opt/SecLists
+# Container-specific local scripts
 COPY --link contents/login.sh /usr/local/bin/login.sh
 COPY --link contents/fix_docker.sh /usr/local/bin/fix_docker.sh
 COPY --link contents/fix_x11.sh /usr/local/bin/fix_x11.sh
-RUN chmod +x /usr/local/bin/login.sh /usr/local/bin/fix_docker.sh /usr/local/bin/fix_x11.sh
+COPY --link /contents/install.sh /usr/local/bin/install.sh
+RUN chmod +x /usr/local/bin/login.sh /usr/local/bin/fix_docker.sh /usr/local/bin/fix_x11.sh /usr/local/bin/install.sh
 COPY --link contents/CONTENTS.md /CONTENTS.md
 RUN mkdir /var/run/.aws
 # Setup the user - the specification of uid and gid is needed because the --link allows
