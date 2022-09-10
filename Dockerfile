@@ -6,7 +6,7 @@ FROM silarsis/infra-util-installer as installer
 FROM amazonlinux:latest
 RUN yum update -y -q \
     # Basics I want everywhere
-    && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo bzip2 procps socat \
+    && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo bzip2 procps socat xorg-x11-server-utils \
     && amazon-linux-extras install docker epel \
     # Security tooling
     && yum install -y -q nmap xmlstarlet java-latest-openjdk gmp openssl bzip2-libs libpcap bc checksec \
@@ -29,7 +29,8 @@ COPY --link --from=installer /john/run /opt/john
 COPY --link --from=installer /SecLists /opt/SecLists
 COPY --link contents/login.sh /usr/local/bin/login.sh
 COPY --link contents/fix_docker.sh /usr/local/bin/fix_docker.sh
-RUN chmod +x /usr/local/bin/login.sh /usr/local/bin/fix_docker.sh
+COPY --link contents/fix_x11.sh /usr/local/bin/fix_x11.sh
+RUN chmod +x /usr/local/bin/login.sh /usr/local/bin/fix_docker.sh /usr/local/bin/fix_x11.sh
 COPY --link contents/CONTENTS.md /CONTENTS.md
 RUN mkdir /var/run/.aws
 # Setup the user - the specification of uid and gid is needed because the --link allows

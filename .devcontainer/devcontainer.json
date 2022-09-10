@@ -44,6 +44,5 @@
 		"DISPLAY": "${localEnv:DISPLAY}",
 		"WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
     },
-	"initializeCommand": "env",
 	"runArgs": ["--net=host"]
 }

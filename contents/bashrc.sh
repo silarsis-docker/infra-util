@@ -11,8 +11,8 @@ fi
 # Fix docker
 sudo /usr/local/bin/fix_docker.sh
 
-# Fix X11 (wsl does this, don't know why)
-if [[ "$DISPLAY" == "1" ]]; then export DISPLAY=":0"; fi
+# Fix X11
+. /usr/local/bin/fix_x11.sh
 
 # User specific aliases and functions
 alias login=". /usr/local/bin/login.sh"
