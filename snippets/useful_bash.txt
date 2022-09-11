@@ -1,0 +1,4 @@
+
+Quick and dirty subtraction of hex (must be upper case):
+
+echo 'ibase=16;C06D1000-C06A5E78' | bc
