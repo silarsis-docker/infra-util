@@ -2,6 +2,7 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.217.4/containers/docker-existing-dockerfile
 {
 	"name": "Existing Dockerfile",
+	"image": "silarsis/infra-util",
 
 	// Sets the run context to one level up instead of the .devcontainer folder.
 	"context": "..",
@@ -30,7 +31,7 @@
 	"mounts": [
 		"source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
 		"source=${localEnv:HOME}/.aws,target=/var/run/.aws,type=bind,consistency=cached",
-		"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
+//		"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
 		"source=${localEnv:HOME}/.ssh,target=/var/run/.ssh,type=bind,consistency=cached"
 	],
 
