@@ -3,7 +3,7 @@
 FROM silarsis/infra-util-installer as installer
 
 # Build our actual image
-FROM amazonlinux:latest
+FROM amazonlinux:2.0.20240131.0
 RUN yum update -y -q \
     # Basics I want everywhere
     && yum install -y -q yum-utils less vim groff unzip python3 git tar jq sudo bzip2 procps socat iputils \
